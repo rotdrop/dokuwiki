@@ -84,10 +84,38 @@ function js_out(){
     $cache_ok = $cache->useCache(array('files' => $cache_files));
     http_cached($cache->cache, $cache_ok);
 
+
     // start output buffering and build the script
     ob_start();
 
     $json = new JSON();
+
+    /***********************************************************
+     *
+     * Get rid of inline javascript
+     *
+     */
+    
+    // get NS, SIG and JSINFO settings from the query string
+    print "var NS = '".urldecode($_GET['NS'])."';\n";
+    if (isset($_GET['SIG'])) {
+      print "var SIG = '".urldecode($_GET['SIG'])."';\n";
+    }
+    $jsJSINFO = array();
+    foreach ($_GET['JSINFO'] as $name => $value) {
+      $jsJSINFO[$name] = urldecode($value);
+    }
+    print "var JSINFO = " . $json->encode($jsJSINFO) . ";\n";
+
+    // also, remove the no-js attribute from the html tag
+    print "(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement);\n";
+
+    /*
+     * end remove inline java script
+     *
+     ***********************************************************/
+    
+
     // add some global variables
     print "var DOKU_BASE   = '".DOKU_BASE."';";
     print "var DOKU_TPL    = '".tpl_basedir()."';";
@@ -96,7 +124,7 @@ function js_out(){
                  'path' => empty($conf['cookiedir']) ? DOKU_REL : $conf['cookiedir'],
                  'secure' => $conf['securecookie'] && is_ssl()
             )).";";
-    // FIXME: Move those to JSINFO
+    // FIXME: Move those to JSINFO (cH: better don't)
     print "var DOKU_UHN    = ".((int) useHeading('navigation')).";";
     print "var DOKU_UHC    = ".((int) useHeading('content')).";";
 

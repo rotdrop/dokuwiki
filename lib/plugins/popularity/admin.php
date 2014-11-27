@@ -123,7 +123,7 @@ class admin_plugin_popularity extends DokuWiki_Admin_Plugin {
      * @return string The form, as an html string
      */
     function buildForm($submissionMode, $data = null){
-        $url = ($submissionMode === 'browser' ? $this->helper->submitUrl : script());
+        $url = ($submissionMode === 'browser' ? $this->helper->submitUrl : dokuscript());
         if ( is_null($data) ){
             $data = $this->helper->gatherAsString();
         }

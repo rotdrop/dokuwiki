@@ -268,8 +268,17 @@ function auth_login($user, $pass, $sticky = false, $silent = false) {
             return auth_login($user, $pass, $sticky, true);
         }
     }
-    //just to be sure
-    auth_logoff(true);
+    if (false) {
+      //just to be sure
+      auth_logoff(true);
+    } else {
+      // Bad idea in the presence of cross-dependent plugins. Only try
+      // to log-off if either $user is set or there are cookies to invalidate
+      if(!empty($user)) {
+        //just to be sure
+        auth_logoff(true);
+      }
+    }
     return false;
 }
 

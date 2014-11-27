@@ -1709,6 +1709,8 @@ function html_edit(){
     global $license;
 
     $form = new Doku_Form(array('id' => 'dw__editform'));
+
+    $form->addHidden('textChanged', $mod ? 'true' : 'false');
     $form->addHidden('id', $ID);
     $form->addHidden('rev', $REV);
     $form->addHidden('date', $DATE);
@@ -1758,13 +1760,6 @@ function html_edit(){
         $out .= '>'.$license[$conf['license']]['name'].'</a>';
         $form->addElement($out);
         $form->addElement(form_makeCloseTag('div'));
-    }
-
-    if ($wr) {
-        // sets changed to true when previewed
-        echo '<script type="text/javascript">/*<![CDATA[*/'. NL;
-        echo 'textChanged = ' . ($mod ? 'true' : 'false');
-        echo '/*!]]>*/</script>' . NL;
     } ?>
     <div class="editBox" role="application">
 

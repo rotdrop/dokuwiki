@@ -10,6 +10,7 @@ $REV  = $INPUT->int('rev');
 // this makes some general info available as well as the info about the
 // "parent" page
 $INFO = array_merge(pageinfo(),mediainfo());
+$JSINFO = array('id' => '', 'namespace' => '');
 
 $tmp = array();
 trigger_event('DETAIL_STARTED', $tmp);

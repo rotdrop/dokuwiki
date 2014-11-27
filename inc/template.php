@@ -399,19 +399,18 @@ function tpl_metaheaders($alt = true) {
         'href'=> DOKU_BASE.'lib/exe/css.php?t='.$conf['template'].'&tseed='.$tseed
     );
 
-    // make $INFO and other vars available to JavaScripts
-    $json   = new JSON();
-    $script = "var NS='".$INFO['namespace']."';";
+    $jsUrlParameters = 'NS='.urlencode($INFO['namespace']);
     if($conf['useacl'] && $INPUT->server->str('REMOTE_USER')) {
-        $script .= "var SIG='".toolbar_signature()."';";
+      $jsUrlParameters .= '&SIG='.urlencode(toolbar_signature());
     }
-    $script .= 'var JSINFO = '.$json->encode($JSINFO).';';
-    $head['script'][] = array('type'=> 'text/javascript', '_data'=> $script);
-
+    foreach ($JSINFO as $name => $value) {
+      $jsUrlParameters .= '&JSINFO['.$name.']='.urlencode($value);
+    }
+    
     // load external javascript
     $head['script'][] = array(
         'type'=> 'text/javascript', 'charset'=> 'utf-8', '_data'=> '',
-        'src' => DOKU_BASE.'lib/exe/js.php'.'?tseed='.$tseed
+        'src' => DOKU_BASE.'lib/exe/js.php'.'?'.$jsUrlParameters.'&tseed='.$tseed
     );
 
     // trigger event here
@@ -1539,7 +1538,7 @@ function tpl_actiondropdown($empty = '', $button = '&gt;') {
     /** @var Input $INPUT */
     global $INPUT;
 
-    echo '<form action="'.script().'" method="get" accept-charset="utf-8">';
+    echo '<form action="'.dokuscript().'" method="get" accept-charset="utf-8">';
     echo '<div class="no">';
     echo '<input type="hidden" name="id" value="'.$ID.'" />';
     if($REV) echo '<input type="hidden" name="rev" value="'.$REV.'" />';

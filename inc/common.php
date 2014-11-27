@@ -619,7 +619,7 @@ function ml($id = '', $more = '', $direct = true, $sep = '&amp;', $abs = false) 
  *
  * @return string
  */
-function script() {
+function dokuscript() {
     return DOKU_BASE.DOKU_SCRIPT;
 }
 
