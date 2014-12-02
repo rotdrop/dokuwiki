@@ -41,6 +41,7 @@
 !/lib/plugins/authmysql
 !/lib/plugins/authpgsql
 !/lib/plugins/authplain
+!/lib/plugins/authowncloud
 !/lib/plugins/config
 !/lib/plugins/extension
 !/lib/plugins/info
