@@ -88,9 +88,26 @@ foreach (array('default','local') as $config_group) {
 // set timezone (as in pre 5.3.0 days)
 date_default_timezone_set(@date_default_timezone_get());
 
+// SSL proxy support: Config
+global $ConfSSLPrx_ProxyHost, $ConfSSLPrx_Prefix, $ConfSSLPrx_CacheDir;
+$ConfSSLPrx_ProxyHost = 'ssl.webpack.de';
+$ConfSSLPrx_Prefix = '/owncloud.cafev.de';
+
+
 // define baseURL
-if(!defined('DOKU_REL')) define('DOKU_REL',getBaseURL(false));
-if(!defined('DOKU_URL')) define('DOKU_URL',getBaseURL(true));
+//if(!defined('DOKU_REL')) define('DOKU_REL',getBaseURL(false));
+//if(!defined('DOKU_URL')) define('DOKU_URL',getBaseURL(true));
+
+// SSL proxy support: Construct DOKU_REL and DOKU_URL for use via ssl proxy
+if($_SERVER['HTTP_X_FORWARDED_SERVER'] === $ConfSSLPrx_ProxyHost ||
+   $_SERVER['HTTP_VIA'] === $ConfSSLPrx_ProxyHost) {
+       if(!defined('DOKU_REL')) define('DOKU_REL',$ConfSSLPrx_Prefix.getBaseURL(false));
+       if(!defined('DOKU_URL')) define('DOKU_URL','https://'.$ConfSSLPrx_ProxyHost.DOKU_REL);
+} else {
+       if(!defined('DOKU_REL')) define('DOKU_REL',getBaseURL(false));
+       if(!defined('DOKU_URL')) define('DOKU_URL',getBaseURL(true));
+}
+
 if(!defined('DOKU_BASE')){
     if($conf['canonical']){
         define('DOKU_BASE',DOKU_URL);
@@ -470,6 +487,10 @@ function getBaseURL($abs=null){
     }else{
         $host = php_uname('n');
         $port = '';
+    }
+
+    if(!$port && isset($_SERVER['SERVER_PORT'])) {
+        $port = $_SERVER['SERVER_PORT'];
     }
 
     if(is_null($port)){
