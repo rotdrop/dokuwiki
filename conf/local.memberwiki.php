@@ -6,6 +6,8 @@
  * Date: Mon, 04 Aug 2014 03:36:20 +0000
  */
 
+$conf['sslproxy']['proxyhost'] = 'ssl.webpack.de';
+$conf['sslproxy']['prefix'] = '/membercloud.cafev.de';
 
 $conf['title'] = 'CAF e.V. Mitglieder-Wiki';
 $conf['lang'] = 'de';
