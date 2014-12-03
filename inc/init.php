@@ -89,10 +89,13 @@ foreach (array('default','local') as $config_group) {
 date_default_timezone_set(@date_default_timezone_get());
 
 // SSL proxy support: Config
-global $ConfSSLPrx_ProxyHost, $ConfSSLPrx_Prefix, $ConfSSLPrx_CacheDir;
-$ConfSSLPrx_ProxyHost = 'ssl.webpack.de';
-$ConfSSLPrx_Prefix = '/owncloud.cafev.de';
-
+global $ConfSSLPrx_ProxyHost, $ConfSSLPrx_Prefix;
+$ConfSSLPrx_ProxyHost = '';
+$ConfSSLPrx_Prefix = '';
+if (isset($conf['sslproxy'])) {
+    $ConfSSLPrx_ProxyHost = $conf['sslproxy']['proxyhost'];
+    $ConfSSLPrx_Prefix = $conf['sslproxy']['prefix'];
+}
 
 // define baseURL
 //if(!defined('DOKU_REL')) define('DOKU_REL',getBaseURL(false));
