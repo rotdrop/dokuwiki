@@ -1,3 +1,6 @@
 [submodule "lib/plugins/authowncloud"]
 	path = lib/plugins/authowncloud
 	url = https://github.com/rotdrop/dokuwiki-authowncloud.git
+[submodule "lib/plugins/discussion"]
+	path = lib/plugins/discussion
+	url = https://github.com/rotdrop/plugin-discussion.git
