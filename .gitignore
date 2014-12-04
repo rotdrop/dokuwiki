@@ -43,6 +43,7 @@
 !/lib/plugins/authplain
 !/lib/plugins/authowncloud
 !/lib/plugins/config
+!/lib/plugins/discussion
 !/lib/plugins/extension
 !/lib/plugins/info
 !/lib/plugins/popularity
